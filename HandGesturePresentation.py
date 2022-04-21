@@ -2,6 +2,7 @@ from sre_constants import IN_IGNORE, SUCCESS
 import cv2
 import os
 from cvzone.HandTrackingModule import HandDetector
+import numpy as np
 
 # Variables
 width, height = 1280, 720 # camera size adjust
@@ -47,7 +48,13 @@ while True:
         #add condition for hand up and down detection
         cx, cy = hand['center']
         lmList = hand['lmList'] # land mark list 
+
+        # Constrain values for easier drawing
         indexFinger = lmList[8][0], lmList[8][1]
+        xVal = int(np.interp(lmList[8][0],[width//2, w],[0, width]))
+        yVal = int(np.interp(lmList[8][1],[150, height-150], [0, height]))
+        indexFinger = xVal, yVal
+
         
 
         if cy <=gestureThreshold: # if hand is at the height of the face
