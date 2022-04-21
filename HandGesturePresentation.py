@@ -4,7 +4,7 @@ import os
 from cvzone.HandTrackingModule import HandDetector
 
 # Variables
-width, height = 50, 20 # camera size adjust
+width, height = 1280, 720 # camera size adjust
 folderPath = "Presentation"
 
 #camera setup
@@ -20,6 +20,7 @@ pathImages = sorted(os.listdir(folderPath), key = len)
 imgNumber = 0 # change the value of imgNumber to show 
 #the differente images
 hs, ws = int(120*1), int(213*1)
+gestureThreshold = 500
 
 # Hand Detector
 detector =HandDetector(detectionCon = 0.8, maxHands = 1)
@@ -34,6 +35,8 @@ while True:
     imgCurrent = cv2.imread(pathfullImage)
 
     hands, img = detector.findHands(img)
+
+    cv2.line(img, (0, gestureThreshold), (width, gestureThreshold), (0, 255, 0), 1)
 
     if hands:
         hand = hands[0] #for single hand detection
