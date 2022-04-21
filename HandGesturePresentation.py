@@ -49,7 +49,9 @@ while True:
             # gesture 1 -Left
             if fingers == [1, 0, 0, 0, 0]:
                 print("Left")
-
+              # gesture 2 -Right
+            if fingers == [0, 0, 0, 0, 1]:
+                print("Right")
     # Adding webcam images on the slides
     imgSmall = cv2.resize(img, (ws, hs))
     h, w, _ = imgCurrent.shape
