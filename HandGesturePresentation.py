@@ -20,7 +20,7 @@ pathImages = sorted(os.listdir(folderPath), key = len)
 imgNumber = 0 # change the value of imgNumber to show 
 #the differente images
 hs, ws = int(120*1), int(213*1)
-gestureThreshold = 500
+gestureThreshold = 400
 
 # Hand Detector
 detector =HandDetector(detectionCon = 0.8, maxHands = 1)
@@ -41,7 +41,15 @@ while True:
     if hands:
         hand = hands[0] #for single hand detection
         fingers = detector.fingersUp(hand)
-        print(fingers)
+        #add condition for hand up and down detection
+        cx, cy = hand['center']
+        
+
+        if cy <=gestureThreshold: # if hand is at the height of the face
+            # gesture 1 -Left
+            if fingers == [1, 0, 0, 0, 0]:
+                print("Left")
+
     # Adding webcam images on the slides
     imgSmall = cv2.resize(img, (ws, hs))
     h, w, _ = imgCurrent.shape
