@@ -14,7 +14,7 @@ cap.set(4, height)
 
 # Get the list of presentation images
 pathImages = sorted(os.listdir(folderPath), key = len)
-print(pathImages)
+# print(pathImages)
 
 # Variables
 imgNumber = 0 # change the value of imgNumber to show 
@@ -33,8 +33,12 @@ while True:
     pathfullImage = os.path.join(folderPath, pathImages[imgNumber])
     imgCurrent = cv2.imread(pathfullImage)
 
-    hands, img = detector.findHands(img, flipType = False)
+    hands, img = detector.findHands(img)
 
+    if hands:
+        hand = hands[0] #for single hand detection
+        fingers = detector.fingersUp(hand)
+        print(fingers)
     # Adding webcam images on the slides
     imgSmall = cv2.resize(img, (ws, hs))
     h, w, _ = imgCurrent.shape
