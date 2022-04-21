@@ -1,3 +1,4 @@
+from __future__ import annotations
 from sre_constants import IN_IGNORE, SUCCESS
 import cv2
 import os
@@ -25,6 +26,7 @@ gestureThreshold = 400
 buttonPressed = False
 buttonCounter = 0
 buttonDelay = 30
+annotations = []
 
 # Hand Detector
 detector =HandDetector(detectionCon = 0.8, maxHands = 1)
@@ -75,12 +77,22 @@ while True:
         # Gesture 3 - Show Pointer
         if fingers == [0, 1, 1, 0, 0]:
             cv2.circle(imgCurrent, indexFinger, 6, (0, 0, 255), cv2.FILLED)
+
+        # Gesture 4 - Draw Pointer
+        if fingers == [0, 1, 0, 0, 0]:
+             cv2.circle(imgCurrent, indexFinger, 6, (0, 0, 255), cv2.FILLED)
+             annotations.append(indexFinger)
+
     # Button pressed iteration
     if buttonPressed:
         buttonCounter += 1
         if buttonCounter > buttonDelay:
             buttonCounter = 0
             buttonPressed = False
+
+    for i in range(len(annotations)):
+        if i != 0:
+            cv2.line(imgCurrent, annotations[i - 1], annotations[i], (0, 0, 200), 6)
     # Adding webcam images on the slides
     imgSmall = cv2.resize(img, (ws, hs))
     h, w, _ = imgCurrent.shape
