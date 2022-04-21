@@ -21,6 +21,9 @@ imgNumber = 0 # change the value of imgNumber to show
 #the differente images
 hs, ws = int(120*1), int(213*1)
 gestureThreshold = 400
+buttonPressed = False
+buttonCounter = 0
+buttonDelay = 30
 
 # Hand Detector
 detector =HandDetector(detectionCon = 0.8, maxHands = 1)
@@ -38,7 +41,7 @@ while True:
 
     cv2.line(img, (0, gestureThreshold), (width, gestureThreshold), (0, 255, 0), 1)
 
-    if hands:
+    if hands and buttonPressed is False:
         hand = hands[0] #for single hand detection
         fingers = detector.fingersUp(hand)
         #add condition for hand up and down detection
@@ -49,13 +52,23 @@ while True:
             # gesture 1 -Left
             if fingers == [1, 0, 0, 0, 0]:
                 print("Left")
+                
                 if imgNumber > 0:
+                    buttonPressed = True
                     imgNumber -= 1
               # gesture 2 -Right
             if fingers == [0, 0, 0, 0, 1]:
                 print("Right")
+                
                 if imgNumber < len(pathImages)-1:
+                    buttonPressed = True
                     imgNumber += 1
+    # Button pressed iteration
+    if buttonPressed:
+        buttonCounter += 1
+        if buttonCounter > buttonDelay:
+            buttonCounter = 0
+            buttonPressed = False
     # Adding webcam images on the slides
     imgSmall = cv2.resize(img, (ws, hs))
     h, w, _ = imgCurrent.shape
