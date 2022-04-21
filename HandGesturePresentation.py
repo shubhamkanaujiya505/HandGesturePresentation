@@ -46,6 +46,8 @@ while True:
         fingers = detector.fingersUp(hand)
         #add condition for hand up and down detection
         cx, cy = hand['center']
+        lmList = hand['lmList'] # land mark list 
+        indexFinger = lmList[8][0], lmList[8][1]
         
 
         if cy <=gestureThreshold: # if hand is at the height of the face
@@ -63,6 +65,9 @@ while True:
                 if imgNumber < len(pathImages)-1:
                     buttonPressed = True
                     imgNumber += 1
+        # Gesture 3 - Show Pointer
+        if fingers == [0, 1, 1, 0, 0]:
+            cv2.circle(imgCurrent, indexFinger, 6, (0, 0, 255), cv2.FILLED)
     # Button pressed iteration
     if buttonPressed:
         buttonCounter += 1
