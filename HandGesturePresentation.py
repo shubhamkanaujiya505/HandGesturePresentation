@@ -1,6 +1,7 @@
 from sre_constants import SUCCESS
 import cv2
 import os
+from cvzone.HandTrackingModule import HandDetector
 
 # Variables
 width, height = 50, 20 # camera size adjust
@@ -19,12 +20,18 @@ print(pathImages)
 imgNumber = 0 # change the value of imgNumber to show 
 #the differente images
 hs, ws = int(120*1), int(213*1)
+
+# Hand Detector
+detector =HandDetector(detectionCon = 0.8, maxHands = 1)
+ 
 while True:
     # import images
 
     success, img = cap.read()
     pathfullImage = os.path.join(folderPath, pathImages[imgNumber])
     imgCurrent = cv2.imread(pathfullImage)
+
+    hands, img = detector.findHands(img)
 
     # Adding webcam images on the slides
     imgSmall = cv2.resize(img, (ws, hs))
