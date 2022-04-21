@@ -15,11 +15,19 @@ cap.set(4, height)
 pathImages = sorted(os.listdir(folderPath), key = len)
 print(pathImages)
 
+# Variables
+imgNumber = 0
+
 while True:
     # import images
 
     success, img = cap.read()
+    pathfullImage = os.path.join(folderPath, pathImages[imgNumber])
+    imgCurrent = cv2.imread(pathfullImage)
+
+
     cv2.imshow("image", img)
+    cv2.imshow("slides", imgCurrent)
     key = cv2.waitKey(1)
     if key == ord('q'):
         break
