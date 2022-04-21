@@ -1,4 +1,4 @@
-from sre_constants import SUCCESS
+from sre_constants import IN_IGNORE, SUCCESS
 import cv2
 import os
 from cvzone.HandTrackingModule import HandDetector
@@ -49,9 +49,13 @@ while True:
             # gesture 1 -Left
             if fingers == [1, 0, 0, 0, 0]:
                 print("Left")
+                if imgNumber > 0:
+                    imgNumber -= 1
               # gesture 2 -Right
             if fingers == [0, 0, 0, 0, 1]:
                 print("Right")
+                if imgNumber < len(pathImages)-1:
+                    imgNumber += 1
     # Adding webcam images on the slides
     imgSmall = cv2.resize(img, (ws, hs))
     h, w, _ = imgCurrent.shape
