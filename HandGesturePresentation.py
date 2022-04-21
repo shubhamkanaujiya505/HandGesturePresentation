@@ -33,7 +33,7 @@ while True:
     pathfullImage = os.path.join(folderPath, pathImages[imgNumber])
     imgCurrent = cv2.imread(pathfullImage)
 
-    hands, img = detector.findHands(img)
+    hands, img = detector.findHands(img, flipType = False)
 
     # Adding webcam images on the slides
     imgSmall = cv2.resize(img, (ws, hs))
