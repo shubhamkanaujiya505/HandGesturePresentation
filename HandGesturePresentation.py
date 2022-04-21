@@ -28,6 +28,8 @@ while True:
     # import images
 
     success, img = cap.read()
+    # flip the hand detector horizontally
+    img = cv2.flip(img, 1) # 0 -> vetically flip
     pathfullImage = os.path.join(folderPath, pathImages[imgNumber])
     imgCurrent = cv2.imread(pathfullImage)
 
