@@ -63,29 +63,31 @@ while True:
         
 
         if cy <=gestureThreshold: # if hand is at the height of the face
+            annotationStart = False
             # gesture 1 -Left
             if fingers == [1, 0, 0, 0, 0]:
+                annotationStart = False
                 print("Left")
                 
                 if imgNumber > 0:
                     buttonPressed = True
                     annotations = [[]] 
                     annotationNumber = -1
-                    annotationStart = False
                     imgNumber -= 1
               # gesture 2 -Right
             if fingers == [0, 0, 0, 0, 1]:
+                annotationStart = False
                 print("Right")
                 
                 if imgNumber < len(pathImages)-1:
                     buttonPressed = True
                     annotations = [[]] 
                     annotationNumber = -1
-                    annotationStart = False
                     imgNumber += 1
         # Gesture 3 - Show Pointer
         if fingers == [0, 1, 1, 0, 0]:
             cv2.circle(imgCurrent, indexFinger, 6, (0, 0, 255), cv2.FILLED)
+            annotationStart = False
 
         # Gesture 4 - Draw Pointer
         if fingers == [0, 1, 0, 0, 0]:
@@ -101,9 +103,12 @@ while True:
         # Gesture 5 Eraser function
         if fingers == [0, 1, 1, 1, 0]:
             if annotations:
-                annotations.pop(-1)
-                annotationNumber -=1
-                buttonPressed = True
+                if annotationNumber > -1:
+                    annotations.pop(-1)
+                    annotationNumber -=1
+                    buttonPressed = True
+    else:
+        annotationStart = False
 
 
     # Button pressed iteration
