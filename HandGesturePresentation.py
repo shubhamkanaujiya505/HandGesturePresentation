@@ -69,6 +69,9 @@ while True:
                 
                 if imgNumber > 0:
                     buttonPressed = True
+                    annotations = [[]] 
+                    annotationNumber = -1
+                    annotationStart = False
                     imgNumber -= 1
               # gesture 2 -Right
             if fingers == [0, 0, 0, 0, 1]:
@@ -76,6 +79,9 @@ while True:
                 
                 if imgNumber < len(pathImages)-1:
                     buttonPressed = True
+                    annotations = [[]] 
+                    annotationNumber = -1
+                    annotationStart = False
                     imgNumber += 1
         # Gesture 3 - Show Pointer
         if fingers == [0, 1, 1, 0, 0]:
@@ -91,7 +97,14 @@ while True:
             annotations[annotationNumber].append(indexFinger)
         else:
             annotationStart = False
-            
+        
+        # Gesture 5 Eraser
+        if fingers == [0, 1, 1, 1, 0]:
+            if annotations:
+                annotations.pop(-1)
+                annotationNumber -=1
+                buttonPressed = True
+
 
     # Button pressed iteration
     if buttonPressed:
