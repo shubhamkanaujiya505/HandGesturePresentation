@@ -98,7 +98,7 @@ while True:
         else:
             annotationStart = False
         
-        # Gesture 5 Eraser
+        # Gesture 5 Eraser function
         if fingers == [0, 1, 1, 1, 0]:
             if annotations:
                 annotations.pop(-1)
