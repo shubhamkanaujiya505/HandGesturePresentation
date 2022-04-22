@@ -26,7 +26,10 @@ gestureThreshold = 400
 buttonPressed = False
 buttonCounter = 0
 buttonDelay = 30
-annotations = []
+annotations = [[]] 
+annotationNumber = -1
+annotationStart = False
+
 
 # Hand Detector
 detector =HandDetector(detectionCon = 0.8, maxHands = 1)
@@ -80,8 +83,15 @@ while True:
 
         # Gesture 4 - Draw Pointer
         if fingers == [0, 1, 0, 0, 0]:
-             cv2.circle(imgCurrent, indexFinger, 6, (0, 0, 255), cv2.FILLED)
-             annotations.append(indexFinger)
+            if annotationStart is False:
+                annotationStart = True
+                annotationNumber += 1
+                annotations.append([])
+            cv2.circle(imgCurrent, indexFinger, 6, (0, 0, 255), cv2.FILLED)
+            annotations[annotationNumber].append(indexFinger)
+        else:
+            annotationStart = False
+            
 
     # Button pressed iteration
     if buttonPressed:
@@ -91,8 +101,9 @@ while True:
             buttonPressed = False
 
     for i in range(len(annotations)):
-        if i != 0:
-            cv2.line(imgCurrent, annotations[i - 1], annotations[i], (0, 0, 200), 6)
+        for j in range(len(annotations[i])):
+            if j != 0:
+             cv2.line(imgCurrent, annotations[i][j - 1], annotations[i][j], (0, 0, 200), 6)
     # Adding webcam images on the slides
     imgSmall = cv2.resize(img, (ws, hs))
     h, w, _ = imgCurrent.shape
